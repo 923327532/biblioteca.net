@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Biblioteca.WPF.Views.ReportesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource Tarjeta}">
+            <StackPanel>
+                <TextBlock Text="Reporte de préstamos por intervalo de fechas"
+                           Style="{StaticResource TituloModulo}" />
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="0,0,16,0">
+                        <Label Content="Desde" />
+                        <DatePicker SelectedDate="{Binding Desde}" Width="170" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,16,0">
+                        <Label Content="Hasta" />
+                        <DatePicker SelectedDate="{Binding Hasta}" Width="170" />
+                    </StackPanel>
+                    <Button Content="Generar reporte" VerticalAlignment="Bottom" Margin="0,0,0,6"
+                            Command="{Binding GenerarCommand}" />
+                </StackPanel>
+                <TextBlock Text="{Binding ResumenMulta}" Foreground="#1F4E79" Margin="0,10,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Style="{StaticResource Tarjeta}">
+            <DataGrid ItemsSource="{Binding Resultado}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="N° Préstamo" Binding="{Binding PrestamoId}" Width="100" />
+                    <DataGridTextColumn Header="Socio" Binding="{Binding Socio}" Width="*" />
+                    <DataGridTextColumn Header="DNI" Binding="{Binding DNI}" Width="110" />
+                    <DataGridTextColumn Header="Libro" Binding="{Binding Libro}" Width="*" />
+                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="160" />
+                    <DataGridTextColumn Header="Fecha préstamo" Binding="{Binding FechaPrestamo, StringFormat=dd/MM/yyyy}" Width="120" />
+                    <DataGridTextColumn Header="Fecha límite" Binding="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" Width="110" />
+                    <DataGridTextColumn Header="Fecha devolución" Binding="{Binding FechaDevolucion, StringFormat=dd/MM/yyyy}" Width="130" />
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100" />
+                    <DataGridTextColumn Header="Días retraso" Binding="{Binding DiasRetraso}" Width="100" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

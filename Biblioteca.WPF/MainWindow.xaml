@@ -1,0 +1,66 @@
+﻿<Window x:Class="Biblioteca.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Biblioteca.WPF.Views"
+        xmlns:vm="clr-namespace:Biblioteca.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="Biblioteca - Sistema de Gestión de Préstamos"
+        Height="720" Width="1150"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource ColorFondo}">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+<Border Grid.Row="0" Background="{StaticResource ColorPrimario}" Padding="16,12">
+            <StackPanel>
+                <TextBlock Text="BibliotecaDB"
+                           Foreground="White" FontSize="18" FontWeight="Bold" />
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Content="Libros" Command="{Binding MostrarLibrosCommand}" />
+                    <Button Content="Socios" Command="{Binding MostrarSociosCommand}" />
+                    <Button Content="Préstamos" Command="{Binding MostrarPrestamosCommand}" />
+                    <Button Content="Devoluciones" Command="{Binding MostrarDevolucionesCommand}" />
+                    <Button Content="Reportes" Command="{Binding MostrarReportesCommand}" />
+                    <TextBlock Text="Cargando..." VerticalAlignment="Center" Margin="16,0,0,0"
+                               Foreground="White"
+                               Visibility="{Binding Ocupado, Converter={StaticResource BoolAVisibilidad}}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+<ContentControl Grid.Row="1" Margin="16" Content="{Binding ModuloActual}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type vm:LibroViewModel}">
+                    <views:LibrosView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:SocioViewModel}">
+                    <views:SociosView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:PrestamoViewModel}">
+                    <views:PrestamosView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:DevolucionViewModel}">
+                    <views:DevolucionesView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ReporteViewModel}">
+                    <views:ReportesView />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+
+<Border Grid.Row="2" Background="#E8EDF2" Padding="16,8">
+            <TextBlock Text="{Binding ModuloActual.Mensaje}" Foreground="#333333" TextWrapping="Wrap" />
+        </Border>
+    </Grid>
+</Window>
+

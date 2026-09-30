@@ -1,0 +1,50 @@
+# ================== .NET / WPF ==================
+# Carpetas de compilación (dotnet build / dotnet run)
+**/bin/
+**/obj/
+**/out/
+**/target/
+**/build/
+*.class
+*.jar
+
+# Paquetes de dependencias
+node_modules/
+.gradle/
+.m2/
+
+# ================== IDEs / editores ==================
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.code-workspace
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# ================== Sistema (Windows/macOS) ==================
+Thumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# ================== Temporales y respaldos ==================
+*.tmp
+*.temp
+*.swp
+*~
+*.bak
+*.orig
+*.rej
+*.log
+
+# ================== Secretos / config local ==================
+*.env
+.env
+config.local.*

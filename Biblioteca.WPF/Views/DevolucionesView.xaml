@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Biblioteca.WPF.Views.DevolucionesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource Tarjeta}">
+            <StackPanel>
+                <TextBlock Text="Registrar devolución" Style="{StaticResource TituloModulo}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                        <Label Content="Préstamo pendiente" />
+                        <ComboBox ItemsSource="{Binding PrestamosPendientes}"
+                                  SelectedItem="{Binding PrestamoSeleccionado}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="N° " />
+                                        <Run Text="{Binding PrestamoId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding NombreSocio}" />
+                                        <Run Text=" - Límite: " />
+                                        <Run Text="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,12,0">
+                        <Label Content="Libro a devolver" />
+                        <ComboBox ItemsSource="{Binding DetallesPendientes}"
+                                  DisplayMemberPath="Titulo"
+                                  SelectedItem="{Binding DetalleSeleccionado}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,12,0">
+                        <Label Content="Fecha de devolución" />
+                        <DatePicker SelectedDate="{Binding FechaDevolucion}" />
+                    </StackPanel>
+
+                    <Button Grid.Column="3" Content="Registrar devolución" VerticalAlignment="Bottom"
+                            Margin="0,0,0,6" Command="{Binding DevolverCommand}" />
+                </Grid>
+
+                <TextBlock Text="{Binding ResumenMulta}" FontWeight="Bold" FontSize="15"
+                           Foreground="#B00020" Margin="0,10,0,0" />
+                <TextBlock Text="Regla: S/ 1.50 por cada día de retraso respecto a la fecha límite."
+                           Foreground="#666666" Margin="0,4,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Style="{StaticResource Tarjeta}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="Pendientes del préstamo seleccionado" FontWeight="Bold"
+                               VerticalAlignment="Center" />
+                    <Button Content="Actualizar" Margin="16,0,0,0" Command="{Binding ActualizarCommand}" />
+                </StackPanel>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding DetallesPendientes}"
+                          SelectedItem="{Binding DetalleSeleccionado}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Préstamo" Binding="{Binding PrestamoId}" Width="90" />
+                        <DataGridTextColumn Header="Título" Binding="{Binding Titulo}" Width="*" />
+                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="180" />
+                        <DataGridTextColumn Header="Socio" Binding="{Binding NombreSocio}" Width="200" />
+                        <DataGridTextColumn Header="Fecha límite" Binding="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" Width="120" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

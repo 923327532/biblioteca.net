@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="Biblioteca.WPF.Views.PrestamosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource Tarjeta}">
+            <StackPanel>
+                <TextBlock Text="Registrar préstamo" Style="{StaticResource TituloModulo}" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                        <Label Content="Socio" />
+                        <ComboBox ItemsSource="{Binding Socios}"
+                                  DisplayMemberPath="Descripcion"
+                                  SelectedItem="{Binding SocioSeleccionado}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,12,0">
+                        <Label Content="Libro" />
+                        <ComboBox ItemsSource="{Binding Libros}"
+                                  SelectedItem="{Binding LibroSeleccionado}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="{Binding Titulo}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding NombreAutor}" />
+                                        <Run Text=" (ejemplares: " />
+                                        <Run Text="{Binding Ejemplares}" />
+                                        <Run Text=")" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" Content="Agregar" VerticalAlignment="Bottom"
+                            Margin="0,0,0,6" Command="{Binding AgregarLibroCommand}" />
+                </Grid>
+
+                <TextBlock Text="{Binding ResumenSocio}" Foreground="#1F4E79" Margin="0,6,0,6" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Registrar préstamo" Command="{Binding RegistrarCommand}" />
+                    <Button Content="Quitar seleccionado" Command="{Binding QuitarLibroCommand}" />
+                    <Button Content="Limpiar" Command="{Binding LimpiarCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1.4*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Tarjeta}" Margin="0,0,12,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Libros del préstamo" FontWeight="Bold" Margin="0,0,0,8" />
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Carrito}"
+                              SelectedItem="{Binding CarritoSeleccionado}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Título" Binding="{Binding Titulo}" Width="*" />
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="160" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource Tarjeta}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Préstamos pendientes" FontWeight="Bold" Margin="0,0,0,8" />
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding PrestamosPendientes}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="N°" Binding="{Binding PrestamoId}" Width="60" />
+                            <DataGridTextColumn Header="Socio" Binding="{Binding NombreSocio}" Width="*" />
+                            <DataGridTextColumn Header="Fecha préstamo" Binding="{Binding FechaPrestamo, StringFormat=dd/MM/yyyy}" Width="130" />
+                            <DataGridTextColumn Header="Fecha límite" Binding="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" Width="120" />
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100" />
+                            <DataGridTextColumn Header="Libros" Binding="{Binding Detalles.Count}" Width="70" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
