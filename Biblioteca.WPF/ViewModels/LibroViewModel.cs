@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Biblioteca.Entidades;
 using Biblioteca.Negocio;
 
@@ -68,7 +68,18 @@ public class LibroViewModel : ViewModelBase
     public string ISBN
     {
         get => _isbn;
-        set => SetProperty(ref _isbn, value);
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                string digits = new string(value.Where(char.IsDigit).ToArray());
+                if (digits.Length == 13 && !value.Contains('-'))
+                {
+                    value = $"{digits[..3]}-{digits[3..]}";
+                }
+            }
+            SetProperty(ref _isbn, value);
+        }
     }
 
     private Autor? _autorSeleccionado;
@@ -117,8 +128,8 @@ public class LibroViewModel : ViewModelBase
         Libro libro = new()
         {
             LibroId = LibroId,
-            Titulo = Titulo,
-            ISBN = ISBN,
+            Titulo = Titulo?.Trim() ?? string.Empty,
+            ISBN = ISBN?.Trim() ?? string.Empty,
             AutorId = AutorSeleccionado?.AutorId ?? 0,
             Ejemplares = Ejemplares,
             Activo = true

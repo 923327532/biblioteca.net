@@ -1,10 +1,12 @@
-﻿using Biblioteca.Datos;
+using System.Text.RegularExpressions;
+using Biblioteca.Datos;
 using Biblioteca.Entidades;
 
 namespace Biblioteca.Negocio;
 
 public class LibroNegocio
 {
+    private static readonly Regex IsbnRegex = new(@"^\d{3}-\d{10}$", RegexOptions.Compiled);
     private readonly ILibroRepositorio _repositorio;
     private readonly AutorDatos _autorDatos;
 
@@ -82,6 +84,13 @@ public class LibroNegocio
         if (string.IsNullOrWhiteSpace(libro.ISBN))
         {
             throw new ReglaNegocioException("El ISBN del libro es obligatorio.");
+        }
+
+        libro.ISBN = libro.ISBN.Trim();
+
+        if (!IsbnRegex.IsMatch(libro.ISBN))
+        {
+            throw new ReglaNegocioException("El ISBN no tiene un formato válido. Debe ser similar a '978-8437604909' (3 dígitos, un guion y 10 dígitos numéricos).");
         }
 
         if (libro.AutorId <= 0)
